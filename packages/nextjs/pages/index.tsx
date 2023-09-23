@@ -8,12 +8,15 @@ const Home: NextPage = () => {
   return (
     <>
       {/* <NavLink href="/index-copy">Original Index</NavLink> */}
-      <div className="flex items-center flex-col flex-grow pt-10">
-        <h1>im-pact</h1>
-        <p>financial and social based habit formation</p>
-        {/* if wallet is already connected, then skip connect step */}
-        <Link href={account.isConnected ? "/pact-actions" : "/connect"}>Create Your Pact</Link>
-        {/* <Link href={"/pact-actions"}>Create Your Pact</Link> */}
+      <div className="landing-background">
+        <div className="landing-container">
+          <h1>im-pact</h1>
+          <h2>Better returns on healthier habits</h2>
+          <p>Create beneficial habits through social pacts and financial incentive</p>
+          {/* if wallet is already connected, then skip connect step */}
+          <Link href={account.isConnected ? "/pact-actions" : "/connect"}>Create Your Pact</Link>
+          {/* <Link href={"/pact-actions"}>Create Your Pact</Link> */}
+        </div>
       </div>
     </>
   );
