@@ -6,7 +6,7 @@ import { Bars3Icon, BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroi
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+export const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   const router = useRouter();
   const isActive = router.pathname === href;
 
