@@ -27,6 +27,7 @@ contract PiggyContract {
         numContributors = 0;
         totalBalance = 0;
         endTime = 0;
+
     }
 
     modifier onlyOwner() {
@@ -50,6 +51,7 @@ contract PiggyContract {
         Participant[] participants;
         PactStatus status;
         mapping(address => uint256) lastCheckInTimestamp;
+
     }
 
 
@@ -467,4 +469,86 @@ contract PiggyContract {
     function revokePrivilege(address _address) external onlyOwner {
         privilegedAddresses[_address] = false;
     }
+
+
+    function _createPactWithoutEther(
+        string memory _title,
+        string memory _description,
+        uint256 _numberOfParticipants,
+        uint256 _duration,
+        uint256 _startDate,
+        uint256 _ante
+    ) internal returns(uint256) {
+        // The checks for ante and participants can be omitted since this is internal and only used for initialization
+
+        // Push an empty pact into the storage array and get a reference to it
+        Pact storage newPact = pacts.push();
+
+        // Then populate its fields
+        newPact.title = _title;
+        newPact.description = _description;
+        newPact.numberOfParticipants = _numberOfParticipants;
+        newPact.duration = _duration;
+        newPact.startDate = _startDate;
+        newPact.ante = _ante;
+        newPact.status = PactStatus.Inactive;
+
+        // Directly push the participant into the storage array in the newly created Pact
+        Participant memory newParticipant = Participant({
+            participantAddress: payable(address(this)), // using contract's address as it's just seed data
+            isEligible: true,
+            canClaim: true 
+        });
+        newPact.participants.push(newParticipant);
+
+        return pacts.length - 1; // Return the index of the created pact
+    }
+
+    function initializePacts() public {
+        _createPactWithoutEther(
+            "Fitness Challenge",
+            "Complete 10,000 steps daily for 30 days.",
+            10,
+            30 days,
+            block.timestamp,
+            1 ether
+        );
+
+        _createPactWithoutEther(
+            "Reading Pact",
+            "Read 50 pages daily for 15 days.",
+            8,
+            15 days,
+            block.timestamp + 1 days,
+            0.5 ether
+        );
+
+        _createPactWithoutEther(
+            "Vegan Challenge",
+            "Commit to a vegan diet for 20 days.",
+            12,
+            20 days,
+            block.timestamp + 3 days,
+            0.8 ether
+        );
+
+        _createPactWithoutEther(
+            "Digital Detox",
+            "Stay off social media platforms for 7 days.",
+            5,
+            7 days,
+            block.timestamp + 2 days,
+            0.3 ether
+        );
+
+        _createPactWithoutEther(
+            "Meditation Retreat",
+            "Meditate for 20 minutes daily for 21 days.",
+            7,
+            21 days,
+            block.timestamp + 4 days,
+            0.7 ether
+        );
+    }
+
 }
