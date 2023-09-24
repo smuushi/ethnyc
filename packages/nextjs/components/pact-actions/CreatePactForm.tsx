@@ -202,9 +202,9 @@ const CreatePactForm = () => {
   };
 
   return (
-    <div>
-      <p>Create Pact Form</p>
-      <div className="flex flex-col">
+    <div className="auth-bg">
+      <div className="create-pact-container">
+        <p>Create a pact</p>
         <label>
           Title
           <input type="text" value={title} onChange={e => handleChange(e, "title")} />
@@ -246,13 +246,13 @@ const CreatePactForm = () => {
           <input type="number" step="1" min="1" value={deposit} onChange={e => handleChange(e, "deposit")} />
         </label>
         <p>{errors?.deposit}</p>
+        <button
+        // onClick={() => writeAsync}
+        // disabled={isLoading}
+        >
+          {canSubmit ? "Create Your Pact" : "nope"}
+        </button>
       </div>
-      <button
-      // onClick={() => writeAsync}
-      // disabled={isLoading}
-      >
-        {canSubmit ? "Create Your Pact" : "nope"}
-      </button>
     </div>
   );
 };
