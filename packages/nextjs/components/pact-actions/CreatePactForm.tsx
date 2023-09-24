@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { RainbowKitCustomConnectButton } from "../scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const CreatePactForm = () => {
@@ -22,22 +23,26 @@ const CreatePactForm = () => {
   });
   const [canSubmit, setCanSubmit] = useState(false);
 
-  // const { writeAsync, isLoading } = useScaffoldContractWrite({
-  //   contractName: "PiggyContract",
-  //   functionName: "createPact",
-  //   args: [
-  //     title,
-  //     desc,
-  //     BigInt(pactSize),
-  //     BigInt(timeSpan),
-  //     BigInt(Math.floor(new Date(startDate).getTime() / 1000) || 0),
-  //     BigInt(deposit),
-  //   ],
-  //   value: `0`, // value of eth to send with transaction
-  //   onBlockConfirmation: txnReceipt => {
-  //     console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-  //   }
-  // });
+  const { writeAsync, isLoading } = useScaffoldContractWrite({
+    contractName: "PiggyContract",
+    functionName: "createPact",
+    args: [
+      title,
+      desc,
+      BigInt(pactSize),
+      BigInt(timeSpan),
+      BigInt(Math.floor(new Date(startDate).getTime() / 1000) || 0),
+      BigInt((parseInt(deposit) || 0) * 10 ** 18),
+    ],
+    value: `${parseInt(deposit) || 0}`, // value of eth to send with transaction
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
+  const handleClick = () => {
+    if (canSubmit) writeAsync();
+  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     let currtitle = title;
@@ -176,65 +181,66 @@ const CreatePactForm = () => {
     // console.log(e.target.value, typeof e.target.value);
   };
 
-  //  const handleSubmit = () => {
-  //   if (canSubmit) writeAsync();
-  //  }
-
   return (
-    <div>
-      <p>Create Pact Form</p>
-      <div className="flex flex-col">
-        <label>
-          Title
-          <input type="text" value={title} onChange={e => handleChange(e, "title")} />
-        </label>
-        <p>{errors?.title}</p>
+    <>
+      <RainbowKitCustomConnectButton />
+      <div>
+        <p>Create Pact Form</p>
+        <div className="flex flex-col">
+          <label>
+            Title
+            <input type="text" value={title} onChange={e => handleChange(e, "title")} />
+          </label>
+          <p>{errors?.title}</p>
 
-        <label>
-          Description
-          <input type="text" value={desc} onChange={e => handleChange(e, "desc")} />
-        </label>
-        <p>{errors?.desc}</p>
+          <label>
+            Description
+            <input type="text" value={desc} onChange={e => handleChange(e, "desc")} />
+          </label>
+          <p>{errors?.desc}</p>
 
-        <label>
-          Number of participants
-          <input type="number" value={pactSize} min="2" max="10" step="1" onChange={e => handleChange(e, "pactSize")} />
-        </label>
-        <p>{errors?.pactSize}</p>
+          <label>
+            Number of participants
+            <input
+              type="number"
+              value={pactSize}
+              min="2"
+              max="10"
+              step="1"
+              onChange={e => handleChange(e, "pactSize")}
+            />
+          </label>
+          <p>{errors?.pactSize}</p>
 
-        <label>
-          Time span
-          <input type="number" step="1" min="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
-        </label>
-        <p>{errors?.timeSpan}</p>
+          <label>
+            Time span
+            <input type="number" step="1" min="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
+          </label>
+          <p>{errors?.timeSpan}</p>
 
-        <label>
-          Start date
-          <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
-        </label>
-        <p>{errors?.startDate}</p>
+          <label>
+            Start date
+            <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
+          </label>
+          <p>{errors?.startDate}</p>
 
-        <label>
-          Check-in method
-          <input type="text" value={checkIn} onChange={e => handleChange(e, "checkIn")} />
-        </label>
-        <p>{errors?.checkIn}</p>
+          <label>
+            Check-in method
+            <input type="text" value={checkIn} onChange={e => handleChange(e, "checkIn")} />
+          </label>
+          <p>{errors?.checkIn}</p>
 
-        <label>
-          Deposit amount
-          <input type="number" step="1" min="1" value={deposit} onChange={e => handleChange(e, "deposit")} />
-        </label>
-        <p>{errors?.deposit}</p>
+          <label>
+            Deposit amount
+            <input type="number" step="1" min="1" value={deposit} onChange={e => handleChange(e, "deposit")} />
+          </label>
+          <p>{errors?.deposit}</p>
+        </div>
+        <button onClick={handleClick} disabled={isLoading}>
+          {canSubmit ? "Create Your Pact" : "nope"}
+        </button>
       </div>
-      <button
-      // onClick={() => writeAsync}
-      // disabled={isLoading}
-      // onClick={handleSubmit}
-      >
-        {/* Create your pact */}
-        {canSubmit ? "Create Your Pact" : "nope"}
-      </button>
-    </div>
+    </>
   );
 };
 
