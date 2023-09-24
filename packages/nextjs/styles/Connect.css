@@ -1,0 +1,8 @@
+.connect-widget-container {
+  width: 450px;
+  height: 450px;
+  background-color: #121212;
+  border-radius: 1rem;
+  border: 1px solid #52506D;
+  box-shadow: 0 0 16px 1px #52506D;
+}

@@ -1,0 +1,75 @@
+.landing-background {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(33deg, #121212 56.5%, #29283B calc(56.5% + 1px));
+  color: #f6f6f6;
+  transition: background-color 2s, background-image 2s, background-repeat 2s, background-attachment 2s, background-position 2s;
+}
+
+.auth-bg {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(33deg, #121212 56.5%, #121212 calc(56.5% + 1px));
+  color: #f6f6f6;
+  transition: background-color 2s, background-image 2s, background-repeat 2s, background-attachment 2s, background-position 2s;
+}
+
+.landing-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.landing-container > h1 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.landing-container > h2 {
+  font-size: 64px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.landing-container > p {
+  font-size: 24px;
+  font-weight: 300;
+  width: 45%;
+  text-align: center;
+  color: #8785A2;
+  margin-bottom: 40px;
+}
+
+.landing-container > a {
+  padding: 16px;
+  border-radius: 0.5rem;
+  background-color: #f6f6f6;
+  color: #121212;
+  font-weight: 400;
+  font-size: 18px;
+  transition: background-color 0.3s;
+}
+
+.landing-container > a:hover {
+  transition: background-color 0.3s;
+  background-color: #d5d4e7;
+}
+
+/* RAINBOWKIT CONNECT WALLET */
+/* This selects Modal's background div tag */
+[data-rk] .ju367vax {
+  background: rgb(68 68 86 / 50%);
+}
+
+/* This selects ConnectButton button tag */
+[data-rk] .ju367v1c {
+  font-weight: 500;
+}
