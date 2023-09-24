@@ -24,7 +24,7 @@ const Debug: NextPage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <MetaHeader
         title="Debug Contracts | Scaffold-ETH 2"
         description="Debug your deployed 🏗 Scaffold-ETH 2 contracts in an easy way"
