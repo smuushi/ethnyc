@@ -10,10 +10,10 @@ export const ContractInteraction = () => {
   const [newGreeting, setNewGreeting] = useState("");
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
-    contractName: "YourContract",
-    functionName: "setGreeting",
-    args: [newGreeting],
-    value: "0.01",
+    contractName: "PiggyContract",
+    functionName: "createPact",
+    args: ["this is title", "this is description", 3n, 60n, 1695528969n, 1000000000000000000n],
+    value: "1",
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },

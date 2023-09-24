@@ -1,4 +1,7 @@
 import { ChangeEvent, useState } from "react";
+import { Header } from "../Header";
+import { RainbowKitCustomConnectButton } from "../scaffold-eth";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 // import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
@@ -201,8 +204,19 @@ const CreatePactForm = () => {
     }
   };
 
+  const { writeAsync, isLoading } = useScaffoldContractWrite({
+    contractName: "PiggyContract",
+    functionName: "createPact",
+    args: ["this is title", "this is description", 3n, 60n, 1695528876n, 1000000000000000000n],
+    value: "1",
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
+
   return (
     <div>
+      <RainbowKitCustomConnectButton />
       <p>Create Pact Form</p>
       <div className="flex flex-col">
         <label>
@@ -247,10 +261,7 @@ const CreatePactForm = () => {
         </label>
         <p>{errors?.deposit}</p>
       </div>
-      <button
-      // onClick={() => writeAsync}
-      // disabled={isLoading}
-      >
+      <button onClick={() => writeAsync()} disabled={isLoading}>
         {canSubmit ? "Create Your Pact" : "nope"}
       </button>
     </div>

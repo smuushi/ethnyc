@@ -1,11 +1,11 @@
 // import Link from "next/link";
-// import { getAccount } from "@wagmi/core";
-// import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { getAccount } from "@wagmi/core";
 import type { NextPage } from "next";
 import { RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
-  // const account = getAccount();
+  const account = getAccount();
 
   return (
     <>
@@ -17,8 +17,7 @@ const Home: NextPage = () => {
         {/* if wallet is already connected, then skip connect step */}
         {/* <Link href={account.isConnected ? "/pact-actions" : "/connect"}>Create Your Pact</Link> */}
         {/* <Link href={"/pact-actions"}>Create Your Pact</Link> */}
-        {/* <ConnectButton label="Get started" /> */}
-        <RainbowKitCustomConnectButton />
+        {account.isConnected ? <RainbowKitCustomConnectButton /> : <ConnectButton label="Get started" />}
       </div>
     </>
   );

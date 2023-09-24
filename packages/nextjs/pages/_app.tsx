@@ -52,7 +52,7 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
         })}
       >
         <div className={account.isConnected ? "auth-bg" : "landing-background"}>
-          <Header />
+          {/* <Header /> */}
           <main className="relative flex flex-col flex-1">
             <Component {...pageProps} />
           </main>
