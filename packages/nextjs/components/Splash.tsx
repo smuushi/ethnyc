@@ -12,7 +12,7 @@ const SplashPage = () => {
     if (account.isConnected) {
       router.push("/home");
     }
-  }, [account]);
+  }, [account, router]);
 
   return (
     <div className="landing-background">
