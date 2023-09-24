@@ -1,18 +1,7 @@
 import { ChangeEvent, useState } from "react";
-
-// import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const CreatePactForm = () => {
-  // const { writeAsync, isLoading } = useScaffoldContractWrite({
-  //   contractName: "",
-  //   functionName: "",
-  //   args: [],
-  //   value: "", // value of eth to send with transaction
-  //   onBlockConfirmation: txnReceipt => {
-  //     console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-  //   }
-  // });
-
   const today = new Date();
   // today.setDate(today.getDate() + 1);
   const [title, setTitle] = useState("");
@@ -32,6 +21,23 @@ const CreatePactForm = () => {
     deposit: "",
   });
   const [canSubmit, setCanSubmit] = useState(false);
+
+  // const { writeAsync, isLoading } = useScaffoldContractWrite({
+  //   contractName: "PiggyContract",
+  //   functionName: "createPact",
+  //   args: [
+  //     title,
+  //     desc,
+  //     BigInt(pactSize),
+  //     BigInt(timeSpan),
+  //     BigInt(Math.floor(new Date(startDate).getTime() / 1000) || 0),
+  //     BigInt(deposit),
+  //   ],
+  //   value: `0`, // value of eth to send with transaction
+  //   onBlockConfirmation: txnReceipt => {
+  //     console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+  //   }
+  // });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     let currtitle = title;
@@ -161,45 +167,18 @@ const CreatePactForm = () => {
       currdeposit !== ""
     ) {
       setCanSubmit(true);
-      console.log("can submit");
+      // console.log("can submit");
     } else {
       setCanSubmit(false);
-      console.log("has issues");
+      // console.log("has issues");
     }
 
-    console.log(e.target.value, typeof e.target.value);
+    // console.log(e.target.value, typeof e.target.value);
   };
 
-  const testSubmit = () => {
-    // let hasIssue = false;
-    // let values = Object.values(errors);
-    // values.forEach(element => {
-    //   if (element !== '') hasIssue = true;
-    //   console.log(element);
-    // });
-    // if (canSubmit && !hasIssue) console.log('everything is okay')
-    // else console.log('problems')
-    if (
-      title.length &&
-      desc.length &&
-      pactSize.length &&
-      !(parseInt(pactSize) > 10) &&
-      !(parseInt(pactSize) < 2) &&
-      startDate &&
-      new Date(startDate) > today &&
-      !(parseInt(timeSpan) < 1) &&
-      timeSpan.length &&
-      checkIn.length &&
-      !(parseInt(deposit) < 1) &&
-      deposit.length
-    ) {
-      setCanSubmit(true);
-      console.log("can submit");
-    } else {
-      setCanSubmit(false);
-      console.log("has issues");
-    }
-  };
+  //  const handleSubmit = () => {
+  //   if (canSubmit) writeAsync();
+  //  }
 
   return (
     <div>
@@ -250,7 +229,9 @@ const CreatePactForm = () => {
       <button
       // onClick={() => writeAsync}
       // disabled={isLoading}
+      // onClick={handleSubmit}
       >
+        {/* Create your pact */}
         {canSubmit ? "Create Your Pact" : "nope"}
       </button>
     </div>
