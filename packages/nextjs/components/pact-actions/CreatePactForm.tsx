@@ -44,9 +44,39 @@ const CreatePactForm = () => {
     if (canSubmit) writeAsync();
   };
 
+  const handleTextArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    let currDesc = desc;
+    setDesc(e.target.value);
+    currDesc = e.target.value;
+    if (e.target.value.length === 0) {
+      setErrors({ ...errors, desc: "Description cannot be empty" });
+    } else {
+      setErrors({ ...errors, desc: "" });
+    }
+
+    if (
+      title.length &&
+      currDesc.length &&
+      pactSize &&
+      !(parseInt(pactSize) > 10) &&
+      !(parseInt(pactSize) < 2) &&
+      startDate &&
+      new Date(startDate) > today &&
+      !(parseInt(timeSpan) < 1) &&
+      timeSpan !== "" &&
+      !(parseFloat(deposit) < 0.0001) &&
+      deposit !== ""
+    ) {
+      setCanSubmit(true);
+      console.log("can submit");
+    } else {
+      setCanSubmit(false);
+      console.log("has issues");
+    }
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     let currtitle = title;
-    let currdesc = desc;
     let currpactSize = pactSize;
     let currtimeSpan = timeSpan;
     let currcheckIn = checkIn;
@@ -64,16 +94,16 @@ const CreatePactForm = () => {
           setErrors({ ...errors, title: "" });
         }
         break;
-      case "desc":
-        setDesc(e.target.value);
-        currdesc = e.target.value;
-        if (e.target.value.length === 0) {
-          // setCanSubmit(false);
-          setErrors({ ...errors, desc: "Description cannot be empty" });
-        } else {
-          setErrors({ ...errors, desc: "" });
-        }
-        break;
+      // case "desc":
+      //   setDesc(e.target.value);
+      //   currdesc = e.target.value;
+      //   if (e.target.value.length === 0) {
+      //     // setCanSubmit(false);
+      //     setErrors({ ...errors, desc: "Description cannot be empty" });
+      //   } else {
+      //     setErrors({ ...errors, desc: "" });
+      //   }
+      //   break;
       case "pactSize":
         const currVal = parseInt(e.target.value);
         currpactSize = e.target.value;
@@ -167,7 +197,7 @@ const CreatePactForm = () => {
 
     if (
       currtitle.length &&
-      currdesc.length &&
+      desc.length &&
       currpactSize &&
       !(parseInt(currpactSize) > 10) &&
       !(parseInt(currpactSize) < 2) &&
@@ -175,8 +205,7 @@ const CreatePactForm = () => {
       new Date(currstartDate) > today &&
       !(parseInt(currtimeSpan) < 1) &&
       currtimeSpan !== "" &&
-      currcheckIn.length &&
-      !(parseInt(currdeposit) < 1) &&
+      !(parseFloat(currdeposit) < 0.0001) &&
       currdeposit !== ""
     ) {
       setCanSubmit(true);
@@ -193,49 +222,89 @@ const CreatePactForm = () => {
     <div className="auth-bg">
       <div className="create-pact-container">
         <h2>Create a pact</h2>
-        <label>
-          <span>Title</span>
-          <input type="text" value={title} onChange={e => handleChange(e, "title")} />
-        </label>
-        <p>{errors?.title}</p>
+        <div id="separator" />
+        <div className="form-content">
+          <div className="form-left-side">
+            <label>
+              <span>Title</span>
+              <input
+                type="text"
+                value={title}
+                onChange={e => handleChange(e, "title")}
+                placeholder="e.g. Do 30 push-ups every day"
+              />
+            </label>
+            <p className="error-msg">{errors?.title}</p>
 
-        <label>
-          <span>Description</span>
-          <input type="text" value={desc} onChange={e => handleChange(e, "desc")} />
-        </label>
-        <p>{errors?.desc}</p>
+            <label>
+              <span>Description</span>
+              <textarea
+                className="desc-input"
+                value={desc}
+                onChange={e => handleTextArea(e)}
+                placeholder="Talk about how participants can verify their participation in the pact. For example, 'record videos of push-ups'"
+              />
+            </label>
+            <p className="error-msg">{errors?.desc}</p>
+          </div>
 
-        <label>
-          <span>Number of participants</span>
-          <input type="number" value={pactSize} min="2" max="10" step="1" onChange={e => handleChange(e, "pactSize")} />
-        </label>
-        <p>{errors?.pactSize}</p>
+          <div className="form-right-side">
+            <label>
+              <span>Number of participants</span>
+              <input
+                type="number"
+                value={pactSize}
+                min="2"
+                max="10"
+                step="1"
+                onChange={e => handleChange(e, "pactSize")}
+                placeholder="How many people would you like to join your pact?"
+              />
+            </label>
+            <p className="error-msg">{errors?.pactSize}</p>
 
-        <label>
-          <span>Time span</span>
-          <input type="number" step="1" min="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
-        </label>
-        <p>{errors?.timeSpan}</p>
+            <label>
+              <span>Time span</span>
+              <input
+                type="number"
+                step="1"
+                min="1"
+                value={timeSpan}
+                onChange={e => handleChange(e, "timeSpan")}
+                placeholder="How long will this pact last?"
+              />
+            </label>
+            <p className="error-msg">{errors?.timeSpan}</p>
 
-        <label>
-          <span>Start date</span>
-          <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
-        </label>
-        <p>{errors?.startDate}</p>
+            <label>
+              <span>Start date</span>
+              <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
+            </label>
+            <p className="error-msg">{errors?.startDate}</p>
 
-        <label>
-          <span>Check-in method</span>
-          <input type="text" value={checkIn} onChange={e => handleChange(e, "checkIn")} />
-        </label>
-        <p>{errors?.checkIn}</p>
+            {/* <label>
+              <span>Check-in method</span>
+              <input type="text" value={checkIn} onChange={e => handleChange(e, "checkIn")} />
+            </label>
+            <p className="error-msg">{errors?.checkIn}</p> */}
 
-        <label>
-          <span>Deposit amount</span>
-          <input type="number" step="0.0001" min="0.0001" value={deposit} onChange={e => handleChange(e, "deposit")} />
-        </label>
-        <p>{errors?.deposit}</p>
-        <button onClick={handleClick} disabled={isLoading}>
-          {canSubmit ? "Create Your Pact" : "nope"}
+            <label>
+              <span>Deposit amount</span>
+              <input
+                type="number"
+                step="0.0001"
+                min="0.0001"
+                value={deposit}
+                onChange={e => handleChange(e, "deposit")}
+                placeholder="Each participant's ETH commitment to this pact"
+              />
+            </label>
+            <p className="error-msg">{errors?.deposit}</p>
+          </div>
+        </div>
+
+        <button className={canSubmit ? "" : "disabled-btn"} onClick={handleClick} disabled={isLoading}>
+          Create
         </button>
       </div>
     </div>
