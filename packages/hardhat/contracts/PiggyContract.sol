@@ -29,6 +29,11 @@ contract PiggyContract {
         endTime = 0;
     }
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Caller is not the owner");
+        _;
+    }
+
     struct Participant {
         address payable participantAddress;
         bool isEligible;
@@ -44,6 +49,7 @@ contract PiggyContract {
         uint256 ante; // depositing amount required to join the pact
         Participant[] participants;
         PactStatus status;
+        mapping(address => uint256) lastCheckInTimestamp;
     }
 
 
@@ -154,7 +160,7 @@ contract PiggyContract {
     ) {
         require(pactIndex < pacts.length, "Pact does not exist");
 
-        Pact memory pactDetails = pacts[pactIndex];
+        Pact storage pactDetails = pacts[pactIndex];
 
         // Compute the count of actively enrolled participants
         uint256 count = 0;
@@ -242,12 +248,12 @@ contract PiggyContract {
 
     function getPactStatus(uint256 pactIndex) public view returns (PactStatus) {
         require(pactIndex < pacts.length, "Pact does not exist");
-        Pact memory pact = pacts[pactIndex];
+        Pact storage pact = pacts[pactIndex];
 
         return computePactStatus(pact);
     }
 
-    function computePactStatus(Pact memory pact) internal view returns (PactStatus) {
+    function computePactStatus(Pact storage pact) internal view returns (PactStatus) {
         if(pact.status == PactStatus.Completed) {
             return PactStatus.Completed;
         }
@@ -263,7 +269,7 @@ contract PiggyContract {
         return pact.status;
     }
 
-    function computeIsJoinable(Pact memory pact) internal view returns (bool) {
+    function computeIsJoinable(Pact storage pact) internal view returns (bool) {
         if (pact.status == PactStatus.Active || pact.status == PactStatus.Completed) {
             return false;
         }
@@ -293,7 +299,7 @@ contract PiggyContract {
     function getFulfillmentEstimate(uint256 pactIndex) public view returns (address[] memory, uint256[] memory) {
         require(pactIndex < pacts.length, "Pact does not exist");
 
-        Pact memory selectedPact = pacts[pactIndex];
+        Pact storage selectedPact = pacts[pactIndex];
 
         uint256 numParticipants = selectedPact.participants.length;
         uint256 totalAnte = numParticipants * selectedPact.ante;
@@ -388,7 +394,77 @@ contract PiggyContract {
         payable(msg.sender).transfer(pactDetails.ante);
     }
 
+    event ProofSubmitted(
+        address indexed participantAddress,
+        uint256 indexed pactIndex,
+        string ipfsHash
+    );
+
+    function submitProof(uint256 pactIndex, string memory ipfsHash) public {
+        require(pactIndex < pacts.length, "Invalid pactIndex");
+        
+        Pact storage pactDetails = pacts[pactIndex];
+
+        // Ensure the pact is active
+        require(block.timestamp >= pactDetails.startDate, "Pact hasn't started yet");
+        require(block.timestamp < pactDetails.startDate + pactDetails.duration, "Pact has already ended");
+
+        bool isParticipant = false;
+        for (uint256 i = 0; i < pactDetails.participants.length; i++) {
+            if (pactDetails.participants[i].participantAddress == msg.sender) {
+                isParticipant = true;
+                break;
+            }
+        }
+        
+        require(isParticipant, "You are not a participant of this pact");
+
+        pacts[pactIndex].lastCheckInTimestamp[msg.sender] = block.timestamp;
+
+        // Emit the event
+        emit ProofSubmitted(msg.sender, pactIndex, ipfsHash);
+    }
+
+    function checkMissedCheckIn(uint256 pactIndex, address participant) external {
+        Pact storage pact = pacts[pactIndex];
+        
+        require(block.timestamp - pact.lastCheckInTimestamp[participant] > 1 days, "Check-in is still valid");
+        
+        // Finding the participant in the array (assuming you've the Participant struct set up)
+        for (uint256 i = 0; i < pact.participants.length; i++) {
+            if (pact.participants[i].participantAddress == participant) {
+                pact.participants[i].isEligible = false;
+                break;
+            }
+        }
+    }
+
+    function invalidateParticipant(uint256 pactIndex, address participant) external onlyPrivileged {
+        Pact storage pact = pacts[pactIndex];
+
+        // Finding the participant in the array
+        for (uint256 i = 0; i < pact.participants.length; i++) {
+            if (pact.participants[i].participantAddress == participant) {
+                pact.participants[i].isEligible = false;
+                break;
+            }
+        }
+    }
 
 
+    // For access control
+    mapping(address => bool) private privilegedAddresses;   
 
+    modifier onlyPrivileged() {
+        require(privilegedAddresses[msg.sender], "Not authorized");
+        _;
+    }
+
+    function grantPrivilege(address _address) external onlyOwner {
+        privilegedAddresses[_address] = true;
+    }
+
+    function revokePrivilege(address _address) external onlyOwner {
+        privilegedAddresses[_address] = false;
+    }
 }
