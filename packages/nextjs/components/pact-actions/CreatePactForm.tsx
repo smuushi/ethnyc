@@ -13,14 +13,15 @@ const CreatePactForm = () => {
   //   }
   // });
 
-  // const today = new Date();
+  const today = new Date();
+  // today.setDate(today.getDate() + 1);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [pactSize, setPactSize] = useState(0);
-  // const [timeSpan, setTimeSpan] = useState(0);
-  // const [startDate, setStartDate] = useState(today);
+  const [pactSize, setPactSize] = useState("2");
+  const [timeSpan, setTimeSpan] = useState("1");
+  const [startDate, setStartDate] = useState("");
   const [checkIn, setCheckIn] = useState("");
-  // const [deposit, setDeposit] = useState(0);
+  const [deposit, setDeposit] = useState("1");
   const [errors, setErrors] = useState({
     title: "",
     desc: "",
@@ -37,82 +38,130 @@ const CreatePactForm = () => {
       case "title":
         setTitle(e.target.value);
         if (e.target.value.length === 0) {
-          setCanSubmit(false);
+          // setCanSubmit(false);
           setErrors({ ...errors, title: "Title cannot be empty" });
         } else {
           setErrors({ ...errors, title: "" });
-          setCanSubmit(true);
         }
         break;
       case "desc":
         setDesc(e.target.value);
         if (e.target.value.length === 0) {
-          setCanSubmit(false);
+          // setCanSubmit(false);
           setErrors({ ...errors, desc: "Description cannot be empty" });
         } else {
           setErrors({ ...errors, desc: "" });
-          setCanSubmit(true);
         }
         break;
       case "pactSize":
         const currVal = parseInt(e.target.value);
-        setPactSize(currVal);
-        if (currVal < 2) {
-          setCanSubmit(false);
-          setErrors({ ...errors, pactSize: "Must have at least 2 participants" });
+
+        if (currVal > 10 || currVal < 2) {
+          setPactSize(e.target.value);
+          // setCanSubmit(false);
+          setErrors({ ...errors, pactSize: "Must be 2 to 10 participants" });
+        } else if (e.target.value[e.target.value.length - 1] === ".") {
+          // setCanSubmit(false);
+        } else if (e.target.value === "") {
+          setPactSize(e.target.value);
+          setErrors({ ...errors, pactSize: "Number of participants cannot be blank" });
+          // setCanSubmit(false);
         } else {
+          setPactSize(e.target.value);
+          // setCanSubmit(true);
           setErrors({ ...errors, pactSize: "" });
+        }
+        break;
+      case "timeSpan":
+        const currTimeSpan = parseInt(e.target.value);
+
+        if (currTimeSpan < 1) {
+          setTimeSpan(e.target.value);
+          // setCanSubmit(false);
+          setErrors({ ...errors, timeSpan: "Time span must be greater than 1" });
+        } else if (e.target.value[e.target.value.length - 1] === ".") {
+          // setCanSubmit(false);
+        } else if (e.target.value === "") {
+          setTimeSpan(e.target.value);
+          setErrors({ ...errors, timeSpan: "Time span cannot be blank" });
+          // setCanSubmit(false);
+        } else {
+          setTimeSpan(e.target.value);
+          setErrors({ ...errors, timeSpan: "" });
+        }
+        break;
+      case "startDate":
+        // today.getTime();
+        const newDate = new Date(e.target.value);
+        newDate.setDate(newDate.getDate() + 1);
+        setStartDate(e.target.value);
+        if (newDate < today) {
+          // setCanSubmit(false);
+          setErrors({ ...errors, startDate: "Start date must be after today" });
+        } else {
+          setErrors({ ...errors, startDate: "" });
           setCanSubmit(true);
         }
         break;
-      // case "timeSpan":
-      //   setTimeSpan(e.target.value);
-      //   if (e.target.value === 0) {
-      //     //   setCanSubmit(false);
-      //     //   setErrors({...errors, 'timeSpan': 'Pact must last at least 1 day'})
-      //   } else {
-      //     setErrors({ ...errors, timeSpan: "" });
-      //     setCanSubmit(true);
-      //   }
-      //   break;
-      // case "startDate":
-      //   setStartDate(e.target.value);
-      //   if (new Date(e.target.value) < today) {
-      //     setCanSubmit(false);
-      //     setErrors({ ...errors, startDate: "Pact cannot start on a day in the past" });
-      //     console.log(errors?.startDate);
-      //   } else {
-      //     setErrors({ ...errors, startDate: "" });
-      //     setCanSubmit(true);
-      //   }
-      //   break;
       case "checkIn":
         setCheckIn(e.target.value);
         if (e.target.value.length === 0) {
-          setCanSubmit(false);
+          // setCanSubmit(false);
           setErrors({ ...errors, checkIn: "Check in cannot be empty" });
         } else {
           setErrors({ ...errors, checkIn: "" });
-          setCanSubmit(true);
+          // setCanSubmit(true);
         }
         break;
-      // case "deposit":
-      //   setDeposit(e.target.value);
-      //   if (e.target.value === 0) {
-      //     setCanSubmit(false);
-      //     setErrors({ ...errors, deposit: "Deposit cannot be zero" });
-      //   } else {
-      //     setErrors({ ...errors, deposit: "" });
-      //     setCanSubmit(true);
-      //   }
-      //   break;
+      case "deposit":
+        const currDep = parseInt(e.target.value);
+        if (currDep < 1) {
+          setDeposit(e.target.value);
+          // setCanSubmit(false);
+          setErrors({ ...errors, deposit: "Deposit must be greater than 0" });
+        } else if (e.target.value[e.target.value.length - 1] === ".") {
+          // setCanSubmit(false);
+        } else if (e.target.value === "") {
+          setDeposit(e.target.value);
+          setErrors({ ...errors, deposit: "Deposit cannot be blank" });
+          // setCanSubmit(false);
+        } else {
+          setDeposit(e.target.value);
+          setErrors({ ...errors, deposit: "" });
+        }
+        break;
     }
+    testSubmit();
     console.log(e.target.value, typeof e.target.value);
   };
 
   const testSubmit = () => {
-    if (canSubmit) console.log("its all good");
-    else console.log("there are issues");
+    // let hasIssue = false;
+    // let values = Object.values(errors);
+    // values.forEach(element => {
+    //   if (element !== '') hasIssue = true;
+    //   console.log(element);
+    // });
+    // if (canSubmit && !hasIssue) console.log('everything is okay')
+    // else console.log('problems')
+    if (
+      title.length &&
+      desc.length &&
+      pactSize &&
+      !(parseInt(pactSize) > 10) &&
+      !(parseInt(pactSize) < 2) && //&& startDate && new Date(startDate) > today
+      !(parseInt(timeSpan) < 1) &&
+      timeSpan !== "" &&
+      checkIn.length &&
+      !(parseInt(deposit) < 1) &&
+      deposit !== ""
+    ) {
+      setCanSubmit(true);
+      console.log("can submit");
+    } else {
+      setCanSubmit(false);
+      console.log("has issues");
+    }
   };
 
   return (
@@ -133,21 +182,21 @@ const CreatePactForm = () => {
 
         <label>
           Number of participants
-          <input type="number" value={pactSize} onChange={e => handleChange(e, "pactSize")} />
+          <input type="number" value={pactSize} min="2" max="10" step="1" onChange={e => handleChange(e, "pactSize")} />
         </label>
         <p>{errors?.pactSize}</p>
 
-        {/* <label>
+        <label>
           Time span
-          <input type="number" step="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
+          <input type="number" step="1" min="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
         </label>
-        <p>{errors?.timeSpan}</p> */}
+        <p>{errors?.timeSpan}</p>
 
-        {/* <label>
+        <label>
           Start date
           <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
         </label>
-        <p>{errors?.startDate}</p> */}
+        <p>{errors?.startDate}</p>
 
         <label>
           Check-in method
@@ -155,18 +204,17 @@ const CreatePactForm = () => {
         </label>
         <p>{errors?.checkIn}</p>
 
-        {/* <label>
+        <label>
           Deposit amount
-          <input type="number" step="1" min="0" required value={deposit} onChange={e => handleChange(e, "deposit")} />
+          <input type="number" step="1" min="1" value={deposit} onChange={e => handleChange(e, "deposit")} />
         </label>
-        <p>{errors?.deposit}</p> */}
+        <p>{errors?.deposit}</p>
       </div>
       <button
-        // onClick={() => writeAsync}
-        onClick={testSubmit}
-        // disabled={isLoading}
+      // onClick={() => writeAsync}
+      // disabled={isLoading}
       >
-        Create Your Pact
+        {canSubmit ? "Create Your Pact" : "nope"}
       </button>
     </div>
   );

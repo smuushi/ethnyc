@@ -12,8 +12,8 @@ const Home: NextPage = () => {
         <h1>im-pact</h1>
         <p>financial and social based habit formation</p>
         {/* if wallet is already connected, then skip connect step */}
-        <Link href={account.isConnected ? "/pact-actions" : "/connect"}>Create Your Pact</Link>
-        {/* <Link href={"/pact-actions"}>Create Your Pact</Link> */}
+        {/* <Link href={account.isConnected ? "/pact-actions" : "/connect"}>Create Your Pact</Link> */}
+        <Link href={"/pact-actions"}>Create Your Pact</Link>
       </div>
     </>
   );
