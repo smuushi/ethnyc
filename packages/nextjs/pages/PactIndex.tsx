@@ -11,7 +11,7 @@ const PactIndex: NextPage = () => {
   return (
     <div className="pact-background">
       <div className="center-button">
-        {account.isConnected ? <RainbowKitCustomConnectButton /> : <ConnectButton label="Get started" />}
+        {account.isConnected ? <RainbowKitCustomConnectButton /> : <ConnectButton label="Connect your wallet" />}
         <a
           href="https://converse.xyz/dm/0x7C64C0B0A703d6b519191f866E0935d4eC2B86CC"
           target="_blank"
@@ -31,6 +31,11 @@ const PactIndex: NextPage = () => {
         <PactData index={6} />
         <PactData index={7} />
         <PactData index={8} />
+        <PactData index={9} />
+        <PactData index={10} />
+        <PactData index={11} />
+        <PactData index={12} />
+        <PactData index={13} />
       </div>
     </div>
   );
