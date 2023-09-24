@@ -14,3 +14,8 @@
   flex-direction: column;
   width: 100%;
 }
+
+.create-pact-container h2 {
+  font-size: 18px;
+  font-weight: 500;
+}

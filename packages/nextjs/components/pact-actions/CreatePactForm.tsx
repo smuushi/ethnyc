@@ -192,7 +192,7 @@ const CreatePactForm = () => {
   return (
     <div className="auth-bg">
       <div className="create-pact-container">
-        <p>Create a pact</p>
+        <h2>Create a pact</h2>
         <label>
           Title
           <input type="text" value={title} onChange={e => handleChange(e, "title")} />
@@ -207,14 +207,7 @@ const CreatePactForm = () => {
 
         <label>
           Number of participants
-          <input
-            type="number"
-            value={pactSize}
-            min="2"
-            max="10"
-            step="1"
-            onChange={e => handleChange(e, "pactSize")}
-          />
+          <input type="number" value={pactSize} min="2" max="10" step="1" onChange={e => handleChange(e, "pactSize")} />
         </label>
         <p>{errors?.pactSize}</p>
 
@@ -238,19 +231,10 @@ const CreatePactForm = () => {
 
         <label>
           Deposit amount
-          <input 
-            type="number" 
-            step="0.0001" 
-            min="0.0001" 
-            value={deposit} 
-            onChange={e => handleChange(e, "deposit")} 
-          />
+          <input type="number" step="0.0001" min="0.0001" value={deposit} onChange={e => handleChange(e, "deposit")} />
         </label>
         <p>{errors?.deposit}</p>
-        <button
-          onClick={handleClick}
-          disabled={isLoading}
-        >
+        <button onClick={handleClick} disabled={isLoading}>
           {canSubmit ? "Create Your Pact" : "nope"}
         </button>
       </div>
