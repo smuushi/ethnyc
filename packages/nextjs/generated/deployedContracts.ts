@@ -5,7 +5,7 @@ const contracts = {
       name: "localhost",
       contracts: {
         PiggyContract: {
-          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
           abi: [
             {
               inputs: [],
@@ -36,6 +36,49 @@ const contracts = {
               ],
               name: "AnteDeposited",
               type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: true,
+                  internalType: "address",
+                  name: "participantAddress",
+                  type: "address",
+                },
+                {
+                  indexed: true,
+                  internalType: "uint256",
+                  name: "pactIndex",
+                  type: "uint256",
+                },
+                {
+                  indexed: false,
+                  internalType: "string",
+                  name: "ipfsHash",
+                  type: "string",
+                },
+              ],
+              name: "ProofSubmitted",
+              type: "event",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "pactIndex",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "participant",
+                  type: "address",
+                },
+              ],
+              name: "checkMissedCheckIn",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
             },
             {
               inputs: [
@@ -275,6 +318,37 @@ const contracts = {
             {
               inputs: [
                 {
+                  internalType: "address",
+                  name: "_address",
+                  type: "address",
+                },
+              ],
+              name: "grantPrivilege",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "pactIndex",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "participant",
+                  type: "address",
+                },
+              ],
+              name: "invalidateParticipant",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
                   internalType: "uint256",
                   name: "pactIndex",
                   type: "uint256",
@@ -369,6 +443,37 @@ const contracts = {
                 },
               ],
               name: "reclaimAnte",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "_address",
+                  type: "address",
+                },
+              ],
+              name: "revokePrivilege",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "pactIndex",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "ipfsHash",
+                  type: "string",
+                },
+              ],
+              name: "submitProof",
               outputs: [],
               stateMutability: "nonpayable",
               type: "function",

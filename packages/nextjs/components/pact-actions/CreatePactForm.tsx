@@ -190,71 +190,71 @@ const CreatePactForm = () => {
   };
 
   return (
-    <>
-      <RainbowKitCustomConnectButton />
-      <div>
-        <p>Create Pact Form</p>
-        <div className="flex flex-col">
-          <label>
-            Title
-            <input type="text" value={title} onChange={e => handleChange(e, "title")} />
-          </label>
-          <p>{errors?.title}</p>
+    <div className="auth-bg">
+      <div className="create-pact-container">
+        <p>Create a pact</p>
+        <label>
+          Title
+          <input type="text" value={title} onChange={e => handleChange(e, "title")} />
+        </label>
+        <p>{errors?.title}</p>
 
-          <label>
-            Description
-            <input type="text" value={desc} onChange={e => handleChange(e, "desc")} />
-          </label>
-          <p>{errors?.desc}</p>
+        <label>
+          Description
+          <input type="text" value={desc} onChange={e => handleChange(e, "desc")} />
+        </label>
+        <p>{errors?.desc}</p>
 
-          <label>
-            Number of participants
-            <input
-              type="number"
-              value={pactSize}
-              min="2"
-              max="10"
-              step="1"
-              onChange={e => handleChange(e, "pactSize")}
-            />
-          </label>
-          <p>{errors?.pactSize}</p>
+        <label>
+          Number of participants
+          <input
+            type="number"
+            value={pactSize}
+            min="2"
+            max="10"
+            step="1"
+            onChange={e => handleChange(e, "pactSize")}
+          />
+        </label>
+        <p>{errors?.pactSize}</p>
 
-          <label>
-            Time span
-            <input type="number" step="1" min="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
-          </label>
-          <p>{errors?.timeSpan}</p>
+        <label>
+          Time span
+          <input type="number" step="1" min="1" value={timeSpan} onChange={e => handleChange(e, "timeSpan")} />
+        </label>
+        <p>{errors?.timeSpan}</p>
 
-          <label>
-            Start date
-            <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
-          </label>
-          <p>{errors?.startDate}</p>
+        <label>
+          Start date
+          <input type="date" value={startDate} onChange={e => handleChange(e, "startDate")} />
+        </label>
+        <p>{errors?.startDate}</p>
 
-          <label>
-            Check-in method
-            <input type="text" value={checkIn} onChange={e => handleChange(e, "checkIn")} />
-          </label>
-          <p>{errors?.checkIn}</p>
+        <label>
+          Check-in method
+          <input type="text" value={checkIn} onChange={e => handleChange(e, "checkIn")} />
+        </label>
+        <p>{errors?.checkIn}</p>
 
-          <label>
-            Deposit amount
-            <input
-              type="number"
-              step="0.0001"
-              min="0.0001"
-              value={deposit}
-              onChange={e => handleChange(e, "deposit")}
-            />
-          </label>
-          <p>{errors?.deposit}</p>
-        </div>
-        <button onClick={handleClick} disabled={isLoading}>
+        <label>
+          Deposit amount
+          <input 
+            type="number" 
+            step="0.0001" 
+            min="0.0001" 
+            value={deposit} 
+            onChange={e => handleChange(e, "deposit")} 
+          />
+        </label>
+        <p>{errors?.deposit}</p>
+        <button
+          onClick={handleClick}
+          disabled={isLoading}
+        >
           {canSubmit ? "Create Your Pact" : "nope"}
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

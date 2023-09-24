@@ -1,0 +1,16 @@
+.create-pact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #121212;
+  background-color: #f6f6f6;
+  padding: 3rem;
+  border-radius: 1rem;
+  width: 450px;
+}
+
+.create-pact-container label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
