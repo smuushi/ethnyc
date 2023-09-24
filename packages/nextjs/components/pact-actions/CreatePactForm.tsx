@@ -11,7 +11,7 @@ const CreatePactForm = () => {
   const [timeSpan, setTimeSpan] = useState("1");
   const [startDate, setStartDate] = useState("");
   const [checkIn, setCheckIn] = useState("");
-  const [deposit, setDeposit] = useState("1");
+  const [deposit, setDeposit] = useState("0.0001");
   const [errors, setErrors] = useState({
     title: "",
     desc: "",
@@ -32,9 +32,9 @@ const CreatePactForm = () => {
       BigInt(pactSize),
       BigInt(timeSpan),
       BigInt(Math.floor(new Date(startDate).getTime() / 1000) || 0),
-      BigInt((parseInt(deposit) || 0) * 10 ** 18),
+      BigInt((parseFloat(deposit) || 0) * 10 ** 18),
     ],
-    value: `${parseInt(deposit) || 0}`, // value of eth to send with transaction
+    value: `${parseFloat(deposit) || 0}`, // value of eth to send with transaction
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
@@ -137,22 +137,30 @@ const CreatePactForm = () => {
         }
         break;
       case "deposit":
-        const currDep = parseInt(e.target.value);
-        currdeposit = e.target.value;
-        if (currDep < 1) {
-          setDeposit(e.target.value);
+        currdeposit = parseFloat(e.target.value).toFixed(4);
+        const currDep = parseFloat(currdeposit);
+        if (currDep <= 0) {
+          if (e.target.value.length > currdeposit.length) {
+            setDeposit(currdeposit);
+            console.log("shouldnt you just be 0 ;-;");
+          } else {
+            setDeposit(e.target.value);
+          }
           // setCanSubmit(false);
           setErrors({ ...errors, deposit: "Deposit must be greater than 0" });
-        } else if (e.target.value[e.target.value.length - 1] === ".") {
+          // } else if (e.target.value[e.target.value.length - 1] === ".") {
           // setCanSubmit(false);
         } else if (e.target.value === "") {
           setDeposit(e.target.value);
           setErrors({ ...errors, deposit: "Deposit cannot be blank" });
           // setCanSubmit(false);
+        } else if (e.target.value.length > currdeposit.length) {
+          // setDeposit(currdeposit);
         } else {
           setDeposit(e.target.value);
           setErrors({ ...errors, deposit: "" });
         }
+        console.log(e.target.value, currDep, currdeposit, deposit);
         break;
     }
     // testSubmit();
@@ -232,7 +240,13 @@ const CreatePactForm = () => {
 
           <label>
             Deposit amount
-            <input type="number" step="1" min="1" value={deposit} onChange={e => handleChange(e, "deposit")} />
+            <input
+              type="number"
+              step="0.0001"
+              min="0.0001"
+              value={deposit}
+              onChange={e => handleChange(e, "deposit")}
+            />
           </label>
           <p>{errors?.deposit}</p>
         </div>
