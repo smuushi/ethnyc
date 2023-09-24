@@ -34,9 +34,18 @@ const CreatePactForm = () => {
   const [canSubmit, setCanSubmit] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
+    let currtitle = title;
+    let currdesc = desc;
+    let currpactSize = pactSize;
+    let currtimeSpan = timeSpan;
+    let currcheckIn = checkIn;
+    let currdeposit = deposit;
+    let currstartDate = startDate;
+
     switch (field) {
       case "title":
         setTitle(e.target.value);
+        currtitle = e.target.value;
         if (e.target.value.length === 0) {
           // setCanSubmit(false);
           setErrors({ ...errors, title: "Title cannot be empty" });
@@ -46,6 +55,7 @@ const CreatePactForm = () => {
         break;
       case "desc":
         setDesc(e.target.value);
+        currdesc = e.target.value;
         if (e.target.value.length === 0) {
           // setCanSubmit(false);
           setErrors({ ...errors, desc: "Description cannot be empty" });
@@ -55,7 +65,7 @@ const CreatePactForm = () => {
         break;
       case "pactSize":
         const currVal = parseInt(e.target.value);
-
+        currpactSize = e.target.value;
         if (currVal > 10 || currVal < 2) {
           setPactSize(e.target.value);
           // setCanSubmit(false);
@@ -74,7 +84,7 @@ const CreatePactForm = () => {
         break;
       case "timeSpan":
         const currTimeSpan = parseInt(e.target.value);
-
+        currtimeSpan = e.target.value;
         if (currTimeSpan < 1) {
           setTimeSpan(e.target.value);
           // setCanSubmit(false);
@@ -93,6 +103,7 @@ const CreatePactForm = () => {
       case "startDate":
         // today.getTime();
         const newDate = new Date(e.target.value);
+        currstartDate = e.target.value;
         newDate.setDate(newDate.getDate() + 1);
         setStartDate(e.target.value);
         if (newDate < today) {
@@ -105,6 +116,7 @@ const CreatePactForm = () => {
         break;
       case "checkIn":
         setCheckIn(e.target.value);
+        currcheckIn = e.target.value;
         if (e.target.value.length === 0) {
           // setCanSubmit(false);
           setErrors({ ...errors, checkIn: "Check in cannot be empty" });
@@ -115,6 +127,7 @@ const CreatePactForm = () => {
         break;
       case "deposit":
         const currDep = parseInt(e.target.value);
+        currdeposit = e.target.value;
         if (currDep < 1) {
           setDeposit(e.target.value);
           // setCanSubmit(false);
@@ -131,7 +144,29 @@ const CreatePactForm = () => {
         }
         break;
     }
-    testSubmit();
+    // testSubmit();
+
+    if (
+      currtitle.length &&
+      currdesc.length &&
+      currpactSize &&
+      !(parseInt(currpactSize) > 10) &&
+      !(parseInt(currpactSize) < 2) &&
+      currstartDate &&
+      new Date(currstartDate) > today &&
+      !(parseInt(currtimeSpan) < 1) &&
+      currtimeSpan !== "" &&
+      currcheckIn.length &&
+      !(parseInt(currdeposit) < 1) &&
+      currdeposit !== ""
+    ) {
+      setCanSubmit(true);
+      console.log("can submit");
+    } else {
+      setCanSubmit(false);
+      console.log("has issues");
+    }
+
     console.log(e.target.value, typeof e.target.value);
   };
 
@@ -147,14 +182,16 @@ const CreatePactForm = () => {
     if (
       title.length &&
       desc.length &&
-      pactSize &&
+      pactSize.length &&
       !(parseInt(pactSize) > 10) &&
-      !(parseInt(pactSize) < 2) && //&& startDate && new Date(startDate) > today
+      !(parseInt(pactSize) < 2) &&
+      startDate &&
+      new Date(startDate) > today &&
       !(parseInt(timeSpan) < 1) &&
-      timeSpan !== "" &&
+      timeSpan.length &&
       checkIn.length &&
       !(parseInt(deposit) < 1) &&
-      deposit !== ""
+      deposit.length
     ) {
       setCanSubmit(true);
       console.log("can submit");
