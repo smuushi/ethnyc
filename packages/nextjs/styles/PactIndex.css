@@ -1,7 +1,28 @@
 .pact-index {
-  display: flex;
-  background-color: #121212;
   min-height: 100vh;
+  padding: 3rem;
+  columns: 3;
+  column-gap: 2rem;
+}
+
+.pact-background {
+  background: linear-gradient(33deg, #121212 56.5%, #29283B calc(56.5% + 1px));
+}
+
+.center-button {
+  padding-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-button a {
+  color: #121212;
+  background-color: #C3C1DE;
+  padding: 8px 12px;
+  border-radius: 0.5rem;
+  margin-left: 20px;
+  font-weight: 500;
 }
 
 .pact-data {
@@ -9,8 +30,63 @@
   justify-content: center;
   flex-direction: column;
   background-color: #F6F6F6;
-  width: 30vw;
   height: fit-content;
+  margin-bottom: 2rem;
   border-radius: 10px;
-  padding: 10px;
+  break-inside: avoid-column;
+}
+
+.pact-data h3 {
+  font-size: 24px;
+  font-weight: 400;
+  padding: 20px;
+  background-color: #C3C1DE;
+  margin: 0;
+  border-radius: 10px 10px 0 0;
+}
+
+.pact-data p {
+  margin: 0;
+  line-height: normal;
+}
+
+.pact-bottom {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 20px 20px;
+}
+
+.pact-data .pact-desc {
+  font-size: 18px;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+.pact-data .pact-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.pact-data #separator {
+  height: 2px;
+}
+
+.pact-data .participation-count {
+  padding: 8px;  
+  border: 2px solid #121212;
+  border-radius: 0.5rem;
+}
+
+.pact-data .pact-bottom-bottom {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.ante {
+  padding: 8px;
+  border: 2px solid #121212;
+  border-radius: 0.5rem;
 }

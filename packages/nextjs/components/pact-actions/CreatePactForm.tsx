@@ -1,10 +1,11 @@
 import { ChangeEvent, useState } from "react";
+import { useRouter } from "next/router";
 import { RainbowKitCustomConnectButton } from "../scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const CreatePactForm = () => {
+  const router = useRouter();
   const today = new Date();
-  // today.setDate(today.getDate() + 1);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [pactSize, setPactSize] = useState("2");
@@ -30,7 +31,7 @@ const CreatePactForm = () => {
       title,
       desc,
       BigInt(pactSize),
-      BigInt(timeSpan),
+      BigInt(parseInt(timeSpan) * 86400),
       BigInt(Math.floor(new Date(startDate).getTime() / 1000) || 0),
       BigInt((parseFloat(deposit) || 0) * 10 ** 18),
     ],
@@ -41,7 +42,10 @@ const CreatePactForm = () => {
   });
 
   const handleClick = () => {
-    if (canSubmit) writeAsync();
+    if (canSubmit) {
+      writeAsync();
+      router.push("/PactIndex");
+    }
   };
 
   const handleTextArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -264,7 +268,7 @@ const CreatePactForm = () => {
             <p className="error-msg">{errors?.pactSize}</p>
 
             <label>
-              <span>Time span</span>
+              <span>Duration</span>
               <input
                 type="number"
                 step="1"
@@ -302,6 +306,8 @@ const CreatePactForm = () => {
             <p className="error-msg">{errors?.deposit}</p>
           </div>
         </div>
+
+        <RainbowKitCustomConnectButton />
 
         <button className={canSubmit ? "" : "disabled-btn"} onClick={handleClick} disabled={isLoading}>
           Create
