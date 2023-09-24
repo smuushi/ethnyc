@@ -1,0 +1,16 @@
+.pact-index {
+  display: flex;
+  background-color: #121212;
+  min-height: 100vh;
+}
+
+.pact-data {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #F6F6F6;
+  width: 30vw;
+  height: fit-content;
+  border-radius: 10px;
+  padding: 10px;
+}

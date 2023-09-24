@@ -19,6 +19,7 @@ import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/Connect.css";
 import "~~/styles/CreatePact.css";
 import "~~/styles/Landing.css";
+import "~~/styles/PactIndex.css";
 import "~~/styles/_reset.css";
 import "~~/styles/globals.css";
 
