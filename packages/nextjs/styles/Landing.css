@@ -57,6 +57,9 @@
   font-weight: 400;
   font-size: 18px;
   transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .landing-container > a:hover {

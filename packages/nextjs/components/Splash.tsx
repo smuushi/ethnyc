@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { RainbowKitCustomConnectButton } from "./scaffold-eth";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -10,9 +11,9 @@ const SplashPage = () => {
 
   useEffect(() => {
     if (account.isConnected) {
-      router.push("/home");
+      router.push("/PactIndex");
     }
-  }, [account]);
+  }, [account, router]);
 
   return (
     <div className="landing-background">
@@ -23,7 +24,13 @@ const SplashPage = () => {
         {/* if wallet is already connected, then skip connect step */}
         {/* <Link href={account.isConnected ? "/pact-actions" : "/connect"}>Create Your Pact</Link> */}
         {/* <Link href={"/pact-actions"}>Create Your Pact</Link> */}
-        {account.isConnected ? <RainbowKitCustomConnectButton /> : <ConnectButton label="Get started" />}
+        {/* {account.isConnected ? <RainbowKitCustomConnectButton /> : <ConnectButton label="Get started" />} */}
+        <Link
+          className="iekbcc0 iekbcc9 ju367v73 ju367v7o ju367v9c ju367vn ju367vec ju367vex ju367v11 ju367v1c ju367v2b ju367v8o _12cbo8i3 ju367v8m _12cbo8i4 _12cbo8i6"
+          href="/PactIndex"
+        >
+          Get started
+        </Link>
       </div>
     </div>
   );
