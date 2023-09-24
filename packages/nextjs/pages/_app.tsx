@@ -17,6 +17,7 @@ import { useGlobalState } from "~~/services/store/store";
 import { wagmiConfig } from "~~/services/web3/wagmiConfig";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/Connect.css";
+import "~~/styles/CreatePact.css";
 import "~~/styles/Landing.css";
 import "~~/styles/_reset.css";
 import "~~/styles/globals.css";
@@ -51,8 +52,8 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
           borderRadius: "medium",
         })}
       >
-        <div className={account.isConnected ? "auth-bg" : "landing-background"}>
-          <Header />
+        <div className="flex flex-col min-h-screen">
+          {/* <Header /> */}
           <main className="relative flex flex-col flex-1">
             <Component {...pageProps} />
           </main>
