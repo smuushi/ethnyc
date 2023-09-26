@@ -1,7 +1,8 @@
 import { useAccount } from "wagmi";
 import {
   // useScaffoldContract,
-  useScaffoldContractRead, // useScaffoldEventHistory,
+  useScaffoldContractRead,
+  useScaffoldContractWrite, // useScaffoldEventHistory,
   // useScaffoldEventSubscriber
 } from "~~/hooks/scaffold-eth";
 
@@ -10,6 +11,18 @@ export const PactData = ({ index }: { index: number }) => {
     contractName: "PiggyContract",
     functionName: "getPactDetails",
     args: [BigInt(index)],
+  });
+
+  const value = data ? data[6] : "0";
+
+  const { writeAsync, isLoading } = useScaffoldContractWrite({
+    contractName: "PiggyContract",
+    functionName: "joinPact",
+    args: [BigInt(index)],
+    value: `${parseFloat(value)}`,
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
   });
 
   if (!data) return null;
